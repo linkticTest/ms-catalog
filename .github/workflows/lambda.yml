@@ -23,7 +23,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
+    - run: npm ci && cd lambda && npm ci
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@master
       with:
