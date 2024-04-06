@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "deploy" ]
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "deploy" ]
 
 jobs:
   build:
@@ -23,4 +23,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
+    - run: |
+        npm ci
+        cd lambda && npm ci
+        npm install -g aws-cdk
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@master
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+        aws-region: "us-east-2"  
+    - name: Deploy to AWS
+      run: cdk deploy --require-approval=never
