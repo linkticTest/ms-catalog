@@ -1,12 +1,47 @@
-# Welcome to your CDK JavaScript project
+# MS Catalog
 
-This is a blank project for CDK development with JavaScript.
+This is the Catalog microservice built with Node.js
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app. The build step is not required when using JavaScript.
+## Technologies
 
-## Useful commands
+* `cdk`  
+* `nodejs`  
+* `docker` through CDK
 
-* `npm run test`         perform the jest unit tests
-* `npx cdk deploy`       deploy this stack to your default AWS account/region
-* `npx cdk diff`         compare deployed stack with current state
-* `npx cdk synth`        emits the synthesized CloudFormation template
+## Development Pattern
+
+* `Middleware pattern`  
+
+## Development Requirements
+
+- NodeJS 20.x
+- Npm
+- git
+
+- For these commands, an AWS account needs to be configured beforehand using the `aws configure` command in the console.
+
+- To run these lambdas locally, SAML is required. It handles creating the Docker container and running it directly: [SAM CLI Installation Guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html)
+
+## How to install the lambda locally:
+
+* `npm install`          Install CDK Dependencies
+* `cd lambda`            Navigate to the lambda directory
+* `npm install`          Install Lambda Dependencies
+* `npx cdk synth`        Emits the synthesized CloudFormation 
+* `npx cdk deploy`       Deploy this stack to AWS account
+
+## How to run the lambda locally:
+
+Once installed and the lambda is previously configured, you can execute the lambda.
+
+`sam local invoke -t ./cdk.out/CatalogStack.template.json catalogListLamba  --profile personal` 
+
+## CI / CD
+
+For CI/CD flow, AWS CDK was used to build infrastructure from the CloudFormation template. The CDK file can be found at the following path:
+
+`lib/catalog-stack.js` 
+
+For CD flow, GitHub Actions were utilized. The pipelines are pre-configured in this repository targeting the master branch:
+
+`.github/workflows/lambda.yml` 
