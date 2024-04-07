@@ -1,16 +1,15 @@
 const { withMiddlewares } = require('./lib/with-middlewares');
 const { AuthMiddleware } = require('./middleware/auth-middleware');
+const { SsmMiddleware } = require('./middleware/ssm-middleware');
 const { CatalogoManager } = require('./utils/ProductManager');
-
-const dbConfig = {
-    host: 'linkticdb.czusoiycuhe6.us-east-2.rds.amazonaws.com',
-    user: 'admin',
-    password: '1234Rewq',
-    database: 'linkticdb'
-};
+const { MissingCredentials } = require('./exceptions/MissingCredentials');
 
 async function handler(event) {
-    const catalogoManager = new CatalogoManager(dbConfig);
+    if (!event.databaseValues) {
+        throw new MissingCredentials('Invalid Database Credentials', 500);
+    }
+
+    const catalogoManager = new CatalogoManager(event.databaseValues);
 
     let products = [];
     try {
@@ -26,5 +25,6 @@ async function handler(event) {
 }
 
 exports.handler = withMiddlewares(handler, [
+    SsmMiddleware(),
     AuthMiddleware(),
 ]);
