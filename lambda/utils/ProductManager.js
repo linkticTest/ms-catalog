@@ -12,7 +12,12 @@ class CatalogoManager {
 
     async connect() {
         if (!this.connection) {
-            this.connection = await mysql.createConnection(this.dbConfig);
+            this.connection = await mysql.createConnection({
+                host: this.dbConfig.host,
+                user: this.dbConfig.username,
+                password: this.dbConfig.password,
+                database: this.dbConfig.dbInstanceIdentifier
+            });
         }
     }
 
