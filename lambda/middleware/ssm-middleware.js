@@ -17,9 +17,12 @@ const SsmMiddleware = () => {
                 })
             );
             if (response) {
+                console.warn('get secret values', response.SecretString);
                 event.databaseValues = JSON.parse(response.SecretString);
             }
-        } catch (error) { }
+        } catch (error) {
+            console.warn('Error getting secret values', error);
+         }
 
         return next(event, context);
     }
