@@ -1,4 +1,4 @@
-# MS Catalog
+# MS Catalog [![Node.js CI](https://github.com/linkticTest/ms-catalog/actions/workflows/lambda.yml/badge.svg)](https://github.com/linkticTest/ms-catalog/actions/workflows/lambda.yml)
 
 This is the Catalog microservice built with Node.js
 
